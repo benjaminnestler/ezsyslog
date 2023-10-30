@@ -9,7 +9,7 @@ LOG_FILE_NAME = f"syslog-{date.today().isoformat()}.log"
 
 # Custom logger setup, I added filehandler to log to file, and streamhandler to display on console.
 log_format = logging.Formatter(
-    fmt="%(asctime)s - %(message)s",
+    fmt="%(asctime)s.%(msecs)03d - %(message)s",
     datefmt="%Y-%m-%d %H:%M:%S"
 )
 log = logging.getLogger(__name__)
@@ -37,7 +37,7 @@ class SyslogHandler(BaseRequestHandler):
 if __name__ == "__main__":
     try:
         syslog = UDPServer(("0.0.0.0", 514), SyslogHandler)
-        log.info("EZ syslog starts, CTRL-C to stop...")
+        log.info("Easy syslog (UDP server with port 514) starts, CTRL-C to stop...")
         syslog.serve_forever(poll_interval=1)
     except KeyboardInterrupt:
         log.info("Ctrl-C detected, exit.")
